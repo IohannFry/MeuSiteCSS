@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Comportamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #question-container {
+            display: none;
+        }
+        #result-container img {
+            width: 200px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Questionário de Comportamento</h1>
+    <div id="question-container">
+        <p id="question"></p>
+        <div>
+            <label>
+                <input type="radio" name="answer" value="sim"> Sim
+            </label>
+            <label>
+                <input type="radio" name="answer" value="não"> Não
+            </label>
+        </div>
+        <button onclick="nextQuestion()">Confirmar</button>
+    </div>
+    <div id="result-container" style="display: none;">
+        <h2 id="result-text"></h2>
+        <img id="result-image" src="" alt="Resultado">
+    </div>
+
+    <script>
+        // Lista de perguntas
+        const questions = [
+            "Suas notas sempre estão acima da média?",
+            "Nunca foi retirado da sala pelo professor?",
+            "Nunca discutiu com outro colega de turma?",
+            "Nunca foi chamado(a) atenção por estar conversando no meio da aula?",
+            "Nunca foi pego usando celular em sala de aula?",
+            "Nunca colou em uma prova?",
+            "Você sempre faz o dever de casa?",
+            "Já recebeu elogio do seu professor?",
+            "Nunca desobedeceu o professor em sala de aula?",
+            "Nunca respondeu mal o professor em sala de aula?",
+            "Você copia tudo o que o professor coloca no quadro?",
+            "Você gosta de estudar?"
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = { sim: 0, não: 0 };
+
+        const questionContainer = document.getElementById('question-container');
+        const questionText = document.getElementById('question');
+        const resultContainer = document.getElementById('result-container');
+        const resultText = document.getElementById('result-text');
+        const resultImage = document.getElementById('result-image');
+
+        // Exibe a primeira pergunta
+        function startQuiz() {
+            questionContainer.style.display = 'block';
+            showQuestion();
+        }
+
+        // Mostra a pergunta atual
+        function showQuestion() {
+            questionText.textContent = questions[currentQuestionIndex];
+        }
+
+        // Passa para a próxima pergunta
+        function nextQuestion() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert("Por favor, selecione uma resposta.");
+                return;
+            }
+
+            // Armazena a resposta
+            answers[selectedOption.value]++;
+
+            // Limpa a seleção
+            selectedOption.checked = false;
+
+            // Passa para a próxima pergunta ou exibe o resultado
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // Mostra o resultado final
+        function showResult() {
+            questionContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+
+            if (answers.sim > answers.não) {
+                resultText.textContent = "Resultado: Anjinho";
+                resultImage.src = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.pngtree.com%2Ffreepng%2Fcute-black-baby-angel-vector_14759498.html";
+            } else {
+                resultText.textContent = "Resultado: Foguinho";
+                resultImage.src = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngwing.com%2Fpt%2Fsearch%3Fq%3Ddiabo";
+            }
+        }
+
+        // Inicia o questionário
+        startQuiz();
+    </script>
+</body>
+</html>
